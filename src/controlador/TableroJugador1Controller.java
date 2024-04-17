@@ -3,27 +3,28 @@ package controlador;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-
+import javafx.scene.input.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class TableroJugador1Controller {
 
     @FXML
     private GridPane tableroJugador1;
-
-    private Button[][] celdas; // Matriz de botones que representan las celdas del tablero
-    private boolean[][] barcos; // Matriz que indica la presencia de barcos en las celdas del tablero
-    private Barco[] barcosColocados;
-    private Button barcoSeleccionado; // Barco que se está moviendo
-
+    
+    private Button[][] celdas;
+    private boolean[][] barcos;
+    private List<List<Button>> botonesBarcos;
+    private List<Button> barcoSeleccionado;
+    Barco[] barcosColocados = new Barco[5];
+    
     @FXML
     public void initialize() {
         inicializarTablero();
         Random rnd = new Random();
         String[] orientaciones = {"Horizontal", "Vertical"};
-        barcosColocados = new Barco[5];
+        
         barcosColocados[0] = new Barco("Portaaviones", 5, orientaciones[rnd.nextInt(2)], 0);
         barcosColocados[1] = new Barco("Buque", 4, orientaciones[rnd.nextInt(2)], 0);
         barcosColocados[2] = new Barco("Submarino", 3, orientaciones[rnd.nextInt(2)], 0);
@@ -35,11 +36,12 @@ public class TableroJugador1Controller {
     private void inicializarTablero() {
         celdas = new Button[10][10];
         barcos = new boolean[10][10];
+        botonesBarcos = new ArrayList<>();
 
         for (int fila = 0; fila < 10; fila++) {
             for (int columna = 0; columna < 10; columna++) {
                 Button celda = new Button();
-                celda.setMinSize(67, 54); // Tamaño de la celda
+                celda.setMinSize(67, 54);
                 celda.setMaxSize(67, 54);
                 tableroJugador1.add(celda, columna, fila);
                 celdas[fila][columna] = celda;
@@ -55,19 +57,16 @@ public class TableroJugador1Controller {
             int fila, columna;
             String orientacion;
 
-            // Genera aleatoriamente fila, columna y orientación
             fila = rnd.nextInt(10);
             columna = rnd.nextInt(10);
             orientacion = barco.getOrientacion();
 
-            // Verifica si la posición generada es válida para colocar el barco
             while (!validarPosicionBarco(barco, fila, columna, orientacion)) {
                 fila = rnd.nextInt(10);
                 columna = rnd.nextInt(10);
                 orientacion = barco.getOrientacion();
             }
 
-            // Coloca el barco en el tablero
             colocarBarcoEnTablero(barco, fila, columna, orientacion);
         }
     }
@@ -83,18 +82,14 @@ public class TableroJugador1Controller {
             columnaFinal += tamaño - 1;
         }
 
-        // Verifica si el barco se sale del tablero
         if (filaFinal >= 10 || columnaFinal >= 10) {
             return false;
         }
 
-        // Verifica si el barco se superpone con otro barco o está demasiado cerca
-        for (int i = fila - 1; i <= filaFinal + 1; i++) {
-            for (int j = columna - 1; j <= columnaFinal + 1; j++) {
-                if (i >= 0 && i < 10 && j >= 0 && j < 10) {
-                    if (barcos[i][j]) {
-                        return false;
-                    }
+        for (int i = Math.max(0, fila - 1); i <= Math.min(9, filaFinal + 1); i++) {
+            for (int j = Math.max(0, columna - 1); j <= Math.min(9, columnaFinal + 1); j++) {
+                if (barcos[i][j]) {
+                    return false;
                 }
             }
         }
@@ -102,48 +97,136 @@ public class TableroJugador1Controller {
         return true;
     }
 
-private void colocarBarcoEnTablero(Barco barco, int fila, int columna, String orientacion) {
-    int tamaño = barco.getLongitud();
-    Rectangle barcoRect = new Rectangle(); // Creamos un nuevo rectángulo para representar el barco
-    barcoRect.setWidth(67 * tamaño); // Establecemos el ancho del rectángulo para que coincida con la longitud del barco
-    barcoRect.setHeight(54);
-    barcoRect.setFill(Color.BLUE); // Color del barco
-       
-    if (orientacion.equals("Vertical")) {
-        for (int i = 0; i < tamaño; i++) {
-            int filaActual = fila + i;
-            int columnaActual = columna;
+    private void colocarBarcoEnTablero(Barco barco, int fila, int columna, String orientacion) {
+        int tamaño = barco.getLongitud();
+        List<Button> botonesDelBarco = new ArrayList<>();
 
-            if (tableroJugador1.getChildren().contains(barcoRect)) {
-                tableroJugador1.getChildren().remove(barcoRect); // Eliminamos el rectángulo del barco si ya está en el GridPane
+        if (orientacion.equals("Vertical")) {
+            for (int i = 0; i < tamaño; i++) {
+                int filaActual = fila + i;
+                Button barcoButton = new Button();
+                barcoButton.setMinSize(67, 54);
+                barcoButton.setMaxSize(67, 54);
+                barcoButton.setStyle("-fx-background-color: blue; -fx-border-color: black");
+                barcoButton.setId("barco_" + filaActual + "_" + columna);
+                barcoButton.setOnDragDetected(event -> dragDetect(event));
+                barcoButton.setOnMouseDragged(event -> arrastrar(event));
+                barcoButton.setOnMouseReleased(event -> finalizarArrastre(event));
+                tableroJugador1.add(barcoButton, columna, filaActual);
+                barcos[filaActual][columna] = true;
+                botonesDelBarco.add(barcoButton);
             }
-
-            barcos[filaActual][columnaActual] = true;
-            tableroJugador1.add(barcoRect, columna, filaActual); // Agregamos el rectángulo del barco en su lugar
+        } else {
+            for (int i = 0; i < tamaño; i++) {
+                int columnaActual = columna + i;
+                Button barcoButton = new Button();
+                barcoButton.setMinSize(67, 54);
+                barcoButton.setMaxSize(67, 54);
+                barcoButton.setStyle("-fx-background-color: blue; -fx-border-color: black");
+                barcoButton.setId("barco_" + fila + "_" + columnaActual);
+                barcoButton.setOnDragDetected(event -> dragDetect(event));
+                barcoButton.setOnMouseDragged(event -> arrastrar(event));
+                barcoButton.setOnMouseReleased(event -> finalizarArrastre(event));
+                tableroJugador1.add(barcoButton, columnaActual, fila);
+                barcos[fila][columnaActual] = true;
+                botonesDelBarco.add(barcoButton);
+            }
         }
-    } else {
-        for (int i = 0; i < tamaño; i++) {
-            int filaActual = fila;
-            int columnaActual = columna + i;
 
-            if (tableroJugador1.getChildren().contains(barcoRect)) {
-                tableroJugador1.getChildren().remove(barcoRect); // Eliminamos el rectángulo del barco si ya está en el GridPane
+        botonesBarcos.add(botonesDelBarco);
+    }
+
+    private void dragDetect(MouseEvent event) {
+        System.out.println("Drag detectado");
+        Button sourceButton = (Button) event.getSource();
+        barcoSeleccionado = buscarBotonesDelBarco(sourceButton);
+        if (barcoSeleccionado != null) {
+            for (Button boton : barcoSeleccionado) {
+                boton.startFullDrag();
             }
+        }
+    }
 
-            barcos[filaActual][columnaActual] = true;
-            tableroJugador1.add(barcoRect, columnaActual, fila); // Agregamos el rectángulo del barco en su lugar
+private void arrastrar(MouseEvent event) {
+    if (barcoSeleccionado != null) {
+        double x = event.getSceneX() - tableroJugador1.getLayoutX();
+        double y = event.getSceneY() - tableroJugador1.getLayoutY();
+
+        int fila = (int) (y / 54);
+        int columna = (int) (x / 67);
+
+        int filaInicial = GridPane.getRowIndex(barcoSeleccionado.get(0));
+        int columnaInicial = GridPane.getColumnIndex(barcoSeleccionado.get(0));
+
+        int deltaFila = fila - filaInicial;
+        int deltaColumna = columna - columnaInicial;
+
+        for (Button boton : barcoSeleccionado) {
+            int nuevaFila = Math.max(0, Math.min(9, GridPane.getRowIndex(boton) + deltaFila));
+            int nuevaColumna = Math.max(0, Math.min(9, GridPane.getColumnIndex(boton) + deltaColumna));
+            GridPane.setRowIndex(boton, nuevaFila);
+            GridPane.setColumnIndex(boton, nuevaColumna);
         }
     }
 }
-    private Button barcoEnCelda(Button celda) {
-        for (int fila = 0; fila < 10; fila++) {
-            for (int columna = 0; columna < 10; columna++) {
-                if (celdas[fila][columna] == celda && barcos[fila][columna]) {
-                    // Encuentra el botón de la celda que contiene un barco
-                    return celda; // Retorna el botón encontrado
+
+
+    private void finalizarArrastre(MouseEvent event) {
+        System.out.println("Finalizar arrastre");
+        if (barcoSeleccionado != null) {
+            double x = event.getSceneX() - tableroJugador1.getLayoutX();
+            double y = event.getSceneY() - tableroJugador1.getLayoutY();
+            int fila = (int) (y / 54);
+            int columna = (int) (x / 67);
+
+            if (validarPosicionBarco(barcoSeleccionado.get(0), fila, columna)) {
+                for (Button boton : barcoSeleccionado) {
+                    tableroJugador1.getChildren().remove(boton);
+                    tableroJugador1.add(boton, columna, fila);
                 }
+                actualizarMatrizBarcos(barcoSeleccionado.get(0), fila, columna);
+            }
+            barcoSeleccionado = null;
+        }
+    }
+
+    private List<Button> buscarBotonesDelBarco(Button celda) {
+        for (List<Button> botonesDelBarco : botonesBarcos) {
+            if (botonesDelBarco.contains(celda)) {
+                return botonesDelBarco;
             }
         }
-        return null; // Si no hay barco en la celda, devuelve null
+        return null;
+    }
+    
+    private Button barcoEnCelda(Button celda) {
+        for (List<Button> botonesDelBarco : botonesBarcos) {
+            if (botonesDelBarco.contains(celda)) {
+                return celda;
+            }
+        }
+        return null;
+    }
+
+    private boolean validarPosicionBarco(Button barco, int fila, int columna) {
+        if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
+            return false;
+        }
+
+        for (Button boton : barcoSeleccionado) {
+            int filaBoton = GridPane.getRowIndex(boton);
+            int columnaBoton = GridPane.getColumnIndex(boton);
+            if (fila + filaBoton < 0 || fila + filaBoton >= 10 || columna + columnaBoton < 0 || columna + columnaBoton >= 10) {
+                return false;
+            }
+            if (barcoEnCelda(celdas[fila + filaBoton][columna + columnaBoton]) != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void actualizarMatrizBarcos(Button barco, int fila, int columna) {
+        // Lógica para actualizar la matriz de barcos con la nueva posición del barco
     }
 }
