@@ -56,8 +56,8 @@ public class InicioController {
 	
     @FXML
     private void irAlJuego(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/TableroJugador1.fxml"));
-        TableroJugador1Controller controladorJuego = loader.getController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/TableroPrueba.fxml"));
+        TableroController controladorJuego = loader.getController();
     
         Parent root = loader.load();
     

@@ -1,35 +1,32 @@
-
 package controlador;
 
-/**
- *
- * @author Usuario
- */
 public class Barco {
-    
-    private String tipo;
-    private int longitud;
-    private String orientacion;
-    private int golpes;
-    
-    public Barco(String tipo, int longitud, String orientacion,int golpes){
+    public int tipo;
+    public boolean vertical = true;
+
+    private int vida;
+
+    public Barco(int tipo, boolean vertical) {
         this.tipo = tipo;
-        this.longitud = longitud;
-        this.orientacion = orientacion;
-        this.golpes = golpes;
+        this.vertical = vertical;
+        vida = tipo;
+
+        /*VBox vbox = new VBox();
+        for (int i = 0; i < tipo; i++) {
+            Rectangle square = new Rectangle(30, 30);
+            square.setFill(null);
+            square.setStroke(Color.BLACK);
+            vbox.getChildren().add(square);
+        }
+
+        getChildren().add(vbox);*/
     }
-    public String getTipo(){
-        return tipo;
+
+    public void impacto() {
+        vida--;
     }
-    public int getLongitud(){
-        return longitud;
+
+    public boolean estaVivo() {
+        return vida > 0;
     }
-    public String getOrientacion(){
-        return orientacion;
-    }
-    
-    public int getGolpes(){
-        return golpes;
-    }
-    
 }

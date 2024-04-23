@@ -46,7 +46,7 @@ public class RegistroController {
         String contra = contrasenia.getText();
         int id = 0;
         if(!usuario.isEmpty() && !contra.isEmpty()){
-        	Gestor_conexion_POSTGRE gestor = new Gestor_conexion_POSTGRE("jdbc:postgresql://localhost:5432/battleship", "", "postgres", "1234", true);
+        	Gestor_conexion_POSTGRE gestor = new Gestor_conexion_POSTGRE("battleship", true);
             String[][] consultaUltimoId;
             consultaUltimoId= Bd.consultaSelect(gestor, "select id_jugador from usuarios order by id_jugador desc limit 1");
             
@@ -69,7 +69,7 @@ public class RegistroController {
     @FXML
     private boolean sePuedeRegistrar(String usuario){
         String[][] vec;
-        Gestor_conexion_POSTGRE gestor = new Gestor_conexion_POSTGRE("jdbc:postgresql://localhost:5432/battleship", "", "postgres", "1234", true);
+        Gestor_conexion_POSTGRE gestor = new Gestor_conexion_POSTGRE("battleship", true);
         vec = Bd.consultaSelect(gestor, "select nombre from usuarios");
         if(vec!=null){
             for(int i=0;i<vec.length;i++){

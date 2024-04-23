@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import utilidades.bbdd.Bd;
 import utilidades.bbdd.Gestor_conexion_POSTGRE;
@@ -36,8 +35,6 @@ public class PrincipalController {
     @FXML
     private Label errorUsuarioNoEncontrado;
     
-    @FXML
-    private BorderPane root;
 
     @FXML
     private void iniciarSesion(ActionEvent event) throws IOException {
@@ -78,7 +75,7 @@ public class PrincipalController {
     }
     
     public String getPuntaje() {
-    	Gestor_conexion_POSTGRE gestor = new Gestor_conexion_POSTGRE("battleship",false);
+    	Gestor_conexion_POSTGRE gestor = new Gestor_conexion_POSTGRE("battleship", false);
     	String[][] resultadoConsulta = Bd.consultaSelect(gestor, "select puntaje from usuarios where nombre='"+nomUsuario.getText()+"'");
     	return resultadoConsulta[0][0];
     }

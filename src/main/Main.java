@@ -22,7 +22,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/Vista/TableroJugador1.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Vista/TableroPrueba.fxml"));
         Image icono = new Image(getClass().getResourceAsStream("/Vista/icono.png"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/Vista/styles.css").toExternalForm());
