@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="bgPagInicio" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1080.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.291" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.InicioController">
+   <children>
+      <Label contentDisplay="CENTER" layoutX="47.0" layoutY="14.0" prefHeight="91.0" prefWidth="278.0" text="Battleship" textAlignment="CENTER" textFill="#ffb200">
+         <font>
+            <Font name="Magneto Bold" size="48.0" />
+         </font>
+         <effect>
+            <Bloom />
+         </effect>
+      </Label>
+      <Button id="btnPaginaInicio" fx:id="btnJugar" layoutX="59.0" layoutY="368.0" mnemonicParsing="false" onAction="#irAlJuego" prefHeight="42.0" prefWidth="72.0" stylesheets="@styles.css" text="Jugar">
+         <font>
+            <Font name="Futura Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button id="btnPaginaInicio" layoutX="59.0" layoutY="410.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="95.0" stylesheets="@styles.css" text="Historial">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button id="btnPaginaInicio" fx:id="btnSalir" layoutX="59.0" layoutY="494.0" mnemonicParsing="false" onAction="#volver" prefHeight="42.0" prefWidth="61.0" stylesheets="@styles.css" text="Salir" />
+      <Button id="btnPaginaInicio" fx:id="btnSalir1" layoutX="59.0" layoutY="452.0" mnemonicParsing="false" onAction="#volver" prefHeight="42.0" prefWidth="72.0" stylesheets="@styles.css" text="Perfil" />
+   </children>
+</AnchorPane>

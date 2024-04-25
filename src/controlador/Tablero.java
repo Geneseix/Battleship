@@ -14,6 +14,7 @@ import java.util.List;
 
 
 public class Tablero extends Parent {
+
     private VBox filas = new VBox();
     private boolean enemigo = false;
     public int barcos = 5;
@@ -25,7 +26,7 @@ public class Tablero extends Parent {
             HBox fila = new HBox();
             for (int x = 0; x < 10; x++) {
                 Celda c = new Celda(x, y, this);
-                c.setOnMouseClicked(manejador);
+                c.setOnMouseClicked(manejador);           
                 fila.getChildren().add(c);
             }
 
@@ -34,12 +35,15 @@ public class Tablero extends Parent {
 
         getChildren().add(filas);
     }
-
+    public int getNumBarcos(){
+        return barcos;
+    }
+    
     public boolean colocarBarco(Barco barco, int x, int y) {
         if (puedeColocarBarco(barco, x, y)) {
-            int longitud = barco.tipo;
+            int longitud = barco.getTipo();
 
-            if (barco.vertical) {
+            if (barco.esVertical()) {
                 for (int i = y; i < y + longitud; i++) {
                     Celda celda = getCelda(x, i);
                     celda.barco = barco;
@@ -66,7 +70,7 @@ public class Tablero extends Parent {
     }
 
     public Celda getCelda(int x, int y) {
-        return (Celda) ((HBox) filas.getChildren().get(y)).getChildren().get(x);
+        return (Celda)((HBox) filas.getChildren().get(y)).getChildren().get(x);
     }
 
     private Celda[] getVecinos(int x, int y) {
@@ -77,7 +81,7 @@ public class Tablero extends Parent {
                 new Point2D(x, y + 1)
         };
 
-        List<Celda> vecinos = new ArrayList<Celda>();
+        List<Celda> vecinos = new ArrayList<>();
 
         for (Point2D p : puntos) {
             if (esPuntoValido(p)) {
@@ -89,9 +93,9 @@ public class Tablero extends Parent {
     }
 
     private boolean puedeColocarBarco(Barco barco, int x, int y) {
-        int longitud = barco.tipo;
+        int longitud = barco.getTipo();
 
-        if (barco.vertical) {
+        if (barco.esVertical()) {
             for (int i = y; i < y + longitud; i++) {
                 if (!esPuntoValido(x, i))
                     return false;
@@ -146,7 +150,7 @@ public class Tablero extends Parent {
         private Tablero tablero;
 
         public Celda(int x, int y, Tablero tablero) {
-            super(50, 50);
+            super(45, 45);
             this.x = x;
             this.y = y;
             this.tablero = tablero;
@@ -168,25 +172,6 @@ public class Tablero extends Parent {
             }
 
             return false;
-        }
-
-       
-        public void rotarBarco() {
-            if (barco != null) {
-                barco.vertical = !barco.vertical;
-                actualizarVisual();
-            }
-        }
-
-      
-        private void actualizarVisual() {
-            if (barco.vertical) {
-                setWidth(50);
-                setHeight(50 * barco.tipo);
-            } else {
-                setWidth(50 * barco.tipo);
-                setHeight(50);
-            }
         }
     }
 }

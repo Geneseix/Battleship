@@ -83,7 +83,7 @@ public class RegistroController {
         
         return true;
     }
-    @FXML
+    
     public static String hashContrasenia(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
