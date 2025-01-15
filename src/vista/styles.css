@@ -1,0 +1,92 @@
+.button {
+    -fx-text-fill: white;
+    -fx-background-color: transparent; 
+    -fx-border-color: white; 
+}
+
+#bgPagPrincipal{
+    -fx-background-image:url('bgInicio.png');
+    -fx-background-size: cover;
+}
+#bgPerfil{
+    -fx-background-image:url('fondoPerfil.jpg');
+    -fx-background-size: cover;
+}
+#bgPagInicio{
+	-fx-background-image:url('bgInicio.png');
+	-fx-background-size: cover;
+}
+
+#login {
+    -fx-background-color:
+            linear-gradient(#ffd65b, #e68400),
+            linear-gradient(#ffef84, #f2ba44),
+            linear-gradient(#ffea6a, #efaa22),
+            linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+            linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+}
+#login:hover {
+    -fx-background-color:
+            linear-gradient(#e68400, #ffd65b),
+            linear-gradient(#f2ba44, #ffef84),
+            linear-gradient(#efaa22, #ffea6a),
+            linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+            linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+}
+
+#btnPaginaInicio {
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-family: "Calibri Bold"; 
+    -fx-padding: 5px 10px;
+    -fx-transition-duration: 0.3s;
+}
+
+#btnPaginaInicio:hover, #btnCrearCuenta:hover, #btnSalir:hover {
+    -fx-background-color: white; 
+    -fx-text-fill: black; 
+    -fx-border-color: white; 
+}
+
+
+#btnCrearCuenta, #btnVolver, #btnSalir {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-family: "Calibri Bold";
+}
+
+#btnVolver:hover {
+    -fx-underline: true;
+}
+
+#btnLogin{
+    -fx-font-size: 32px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-family: "Calibri Bold";
+}
+
+#btnLogin:hover{
+    -fx-background-color: white; 
+    -fx-text-fill: black; 
+    -fx-border-color: white; 
+}
+
+

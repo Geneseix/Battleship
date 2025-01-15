@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="915.0" style="-fx-background-color: F4F7F9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.RegistroController">
+   <children>
+      <AnchorPane id="bgPagInicio" layoutX="-13.0" prefHeight="399.0" prefWidth="427.0" stylesheets="@styles.css">
+         <children>
+            <Label contentDisplay="CENTER" layoutX="73.0" layoutY="52.0" prefHeight="91.0" prefWidth="282.0" text="Battleship" textAlignment="CENTER" textFill="#eea10b">
+               <font>
+                  <Font name="Impact" size="64.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="572.0" layoutY="50.0" prefHeight="44.0" prefWidth="191.0" text="Crear cuenta">
+         <font>
+            <Font name="Calibri Bold" size="36.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="contrasenia" layoutX="594.0" layoutY="226.0" prefHeight="26.0" prefWidth="149.0" />
+      <TextField fx:id="nomUsuario" layoutX="593.0" layoutY="170.0" />
+      <Button id="login" fx:id="btnRegistro" layoutX="605.0" layoutY="279.0" mnemonicParsing="false" onAction="#registrarUsuario" stylesheets="@styles.css" text="Crear cuenta" />
+      <Button id="btnVolver" fx:id="linkButton" layoutX="818.0" layoutY="57.0" onAction="#volver" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black; -fx-font-size: 14px;" stylesheets="@styles.css" text="Volver">
+         <font>
+            <Font name="Al Nile" size="13.0" />
+         </font></Button>
+      <Label layoutX="593.0" layoutY="153.0" text="Nombre de usuario">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font></Label>
+      <Label layoutX="593.0" layoutY="209.0" text="Contraseña">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font></Label>
+      <Label fx:id="txtError" layoutX="594.0" layoutY="262.0" text="El nombre de usuario ya existe" textFill="RED" visible="false" />
+      <Label fx:id="txtError2" layoutX="526.0" layoutY="262.0" text="El nombre de usuario o contraseña no puede estar vacío" textFill="RED" visible="false" />
+   </children>
+</AnchorPane>
